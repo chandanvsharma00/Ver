@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Telegram Mini App</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+  <h1>Telegram Mini App Example</h1>
+  
+  <p id="user-info"></p>
+  <p id="auth-date"></p>
+  <p id="hash"></p>
+
+  <script>
+    // Check if we're inside Telegram WebApp
+    if (window.Telegram.WebApp.initData) {
+      // Access initData from Telegram
+      const initData = window.Telegram.WebApp.initData;
+      console.log("Init Data:", initData);
+      
+      // Parse initData using URLSearchParams
+      const urlParams = new URLSearchParams(initData);
+      
+      // Extract relevant data
+      const user = urlParams.get('user');      // User info (JSON string)
+      const authDate = urlParams.get('auth_date');  // Auth date (Unix timestamp)
+      const hash = urlParams.get('hash');      // Hash to verify authenticity
+
+      // Display the user information and other data
+      document.getElementById('user-info').textContent = "User Info: " + user;
+      document.getElementById('auth-date').textContent = "Auth Date: " + authDate;
+      document.getElementById('hash').textContent = "Hash: " + hash;
+
+      // Optionally, parse the user JSON to get more details like first name, last name, etc.
+      const userObj = JSON.parse(user);
+      console.log("Parsed User:", userObj);
+    } else {
+      alert("This app must be opened within Telegram WebApp");
+    }
+  </script>
+</body>
+</html>
